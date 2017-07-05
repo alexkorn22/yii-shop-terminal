@@ -28,4 +28,4 @@ phpunit.phar
 
 www/tests/_output/*
 www/tests/_support/_generated
-www/upload
+www/uploads

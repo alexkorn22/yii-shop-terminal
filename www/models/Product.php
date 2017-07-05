@@ -64,4 +64,30 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasMany(OrderProduct::className(), ['product_id' => 'id']);
     }
+
+    public function getImage() {
+        if ($this->image) {
+            if (strrpos ($this->image,'//') !== false){
+                return $this->image;
+            }
+        } else {
+            return '/image/no-image.png';
+        }
+        return '/uploads/image/' . $this->image;
+    }
+
+    public function saveImage($image){
+        $this->image = $image;
+        return $this->save(false);
+    }
+
+    protected function deleteImage() {
+        $imageUploadModel = new ImageUpload();
+        $imageUploadModel->deleteCurrentImage($this->image);
+    }
+
+    public function beforeDelete(){
+        $this->deleteImage();
+        return parent::beforeDelete();
+    }
 }

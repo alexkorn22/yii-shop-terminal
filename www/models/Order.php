@@ -43,8 +43,8 @@ class Order extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'guid' => 'Guid',
-            'number' => 'Number',
-            'sum' => 'Sum',
+            'number' => 'Номер заказа',
+            'sum' => 'Сумма',
         ];
     }
 
