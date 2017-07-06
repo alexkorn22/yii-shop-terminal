@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use app\assets\PublicAsset;
 
@@ -29,8 +30,16 @@ PublicAsset::register($this);
         <h3>Терминал для заказа</h3>
         <div class="nav_tabs">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="#">Популярные товары</a></li>
-                <li role="presentation"><a href="#">Все товары</a></li>
+                <li role="presentation" class="<?if (Yii::$app->requestedRoute == 'site/index'){echo 'active';}?>">
+                    <a href="<?= Url::to(['site/index'])?>">
+                        Популярные товары
+                    </a>
+                </li>
+                <li role="presentation" class="<?if (Yii::$app->requestedRoute == 'site/catalog'){echo 'active';}?>">
+                    <a href="<?= Url::to(['site/catalog'])?>">
+                        Все товары
+                    </a>
+                </li>
                 <li role="presentation" ><a href="#">Корзина (0)</a></li>
             </ul>
         </div>

@@ -130,5 +130,11 @@ class SiteController extends Controller
         return $this->render('about');
     }
 
-
+    public function actionCatalog()
+    {
+        $data = Product::getListAll(24);
+        $products = $data['products'];
+        $pagination = $data['pagination'];
+        return $this->render('catalog',compact('products', 'pagination'));
+    }
 }
