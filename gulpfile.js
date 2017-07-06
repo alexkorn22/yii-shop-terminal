@@ -19,6 +19,7 @@ var path = {
         html: 'www/web/markup/build/',
         js: 'www/web/markup/build/js/',
         css: 'www/web/markup/build/css/',
+        cssWork: 'www/web/css/',
         img: 'www/web/markup/build/img/',
         fonts: 'www/web/markup/build/fonts/'
     },
@@ -87,6 +88,7 @@ gulp.task('style:build', function () {
         .pipe(cssmin())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(path.build.css))
+        .pipe(gulp.dest(path.build.cssWork))
         .pipe(reload({stream: true}));
 });
 

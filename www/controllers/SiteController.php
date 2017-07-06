@@ -2,7 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Product;
 use Yii;
+use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
@@ -62,7 +64,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $data = Product::getListPopular(12);
+        $products = $data['products'];
+        $pagination = $data['pagination'];
+        return $this->render('index',compact('products', 'pagination'));
     }
 
     /**
@@ -124,4 +129,6 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+
 }

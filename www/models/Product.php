@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\data\Pagination;
 
 /**
  * This is the model class for table "product".
@@ -89,5 +90,29 @@ class Product extends \yii\db\ActiveRecord
     public function beforeDelete(){
         $this->deleteImage();
         return parent::beforeDelete();
+    }
+
+    public static function getListPopular($pageSize = 12){
+        $query = Product::find()->where(['popular' => 1]);
+        $count = $query->count();
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize'=>$pageSize]);
+        $products = $query->select(['id','name','description','image','price'])
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return compact('products','pagination');
+
+    }
+
+    public static function getListAll($pageSize = 12){
+        $query = Product::find();
+        $count = $query->count();
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize'=>$pageSize]);
+        $products = $query->select(['id','name','description','image','price'])
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return compact('products','pagination');
+
     }
 }
