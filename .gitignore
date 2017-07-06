@@ -29,3 +29,5 @@ phpunit.phar
 www/tests/_output/*
 www/tests/_support/_generated
 www/uploads
+www/web/markup/build/*
+node_modules
