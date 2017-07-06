@@ -9,8 +9,8 @@ use yii\bootstrap\NavBar;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use app\assets\PublicAsset;
-
 PublicAsset::register($this);
+$curRoute = Yii::$app->controller->route;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -30,17 +30,21 @@ PublicAsset::register($this);
         <h3>Терминал для заказа</h3>
         <div class="nav_tabs">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="<?if (Yii::$app->requestedRoute == 'site/index'){echo 'active';}?>">
+                <li role="presentation" class="<?if ($curRoute == 'site/index'){echo 'active';}?>">
                     <a href="<?= Url::to(['site/index'])?>">
                         Популярные товары
                     </a>
                 </li>
-                <li role="presentation" class="<?if (Yii::$app->requestedRoute == 'site/catalog'){echo 'active';}?>">
+                <li role="presentation" class="<?if ($curRoute == 'site/catalog'){echo 'active';}?>">
                     <a href="<?= Url::to(['site/catalog'])?>">
                         Все товары
                     </a>
                 </li>
-                <li role="presentation" ><a href="#">Корзина (0)</a></li>
+                <li role="presentation" class="<?if ($curRoute == 'cart/index'){echo 'active';}?>">
+                    <a href="<?= Url::toRoute('cart/index')?>">
+                        Корзина (<span id="cartCounter"><?=\app\models\Cart::getCount()?></span>)
+                    </a>
+                </li>
             </ul>
         </div>
         <?=$content?>
