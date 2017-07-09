@@ -1,6 +1,12 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $products array */
+/* @var $cart \app\models\Cart */
+
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Url;
+
 
 $this->title = 'Корзина';
 
@@ -20,18 +26,35 @@ $this->title = 'Корзина';
         </thead>
 
         <tbody>
+        <? foreach ($products as $product):?>
         <tr>
-            <td class="col_img"><img src="http://dummyimage.com/100x100.jpg/cc0000/ffffff" alt=""></td>
+            <td class="col_img"><img src="<?=$product['product']->getImage()?>" alt=""></td>
             <td>
-                <h4>Название товара</h4>
+                <h4><?=$product['product']->name?></h4>
                 <p>Описание</p>
             </td>
-            <td>2</td>
-            <td>500 грн</td>
-            <td class="col_delete"><a href="#" class="btn btn-danger btn_del"><i class="glyphicon glyphicon-minus"></i></a></td>
+            <td><?=$product['count']?></td>
+            <td><?=$product['price']?> грн</td>
+            <td class="col_delete">
+                <a href="<?=Url::to(['cart/delete','id' => $product['product_id']])?>" class="btn btn-danger btn_del">
+                    <i class="glyphicon glyphicon-minus"></i>
+                </a>
+            </td>
         </tr>
+        <? endforeach;?>
         </tbody>
     </table>
+
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php $form = ActiveForm::begin(['id' => 'makeOrder']); ?>
+                <input type="hidden" name="makeOrder" value="true">
+                <button type="submit" class="btn btn-primary">Оформить заказ на сумму </button>
+                <?php ActiveForm::end(); ?>
+            </div>
+        </div>
+    </div>
 </div>
 
 

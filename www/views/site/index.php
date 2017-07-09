@@ -4,6 +4,7 @@
 /* @var $pagination \yii\data\Pagination*/
 /* @var $products \app\models\Product[] */
 
+use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
@@ -53,5 +54,11 @@ $count = 0;
 echo LinkPager::widget([
     'pagination' => $pagination,
 ]);
+?>
+
+<?
+if (Yii::$app->session->getFlash('addToCart')) {
+    echo $this->render('msgAddToCart');
+}
 ?>
 

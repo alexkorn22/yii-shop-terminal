@@ -4,6 +4,7 @@
 /* @var $pagination \yii\data\Pagination*/
 /* @var $products \app\models\Product[] */
 
+use yii\helpers\Url;
 use yii\widgets\LinkPager;
 
 $this->title = 'Каталог товаров';
@@ -31,7 +32,7 @@ $count = 0;
                     <p><?=$product->description?></p>
                 </div>
                 <p>
-                    <a href="javascript:void(0)" data-productid="<?=$product->id?>" class="btn btn-primary" role="button">В корзину</a>
+                    <a href="<?=Url::to(['cart/buy','id' => $product->id])?>" data-productid="<?=$product->id?>" class="btn btn-primary" role="button">В корзину</a>
                     <span class="pull-right list_price"><?=$product->price?> грн</span>
                 </p>
             </div>
@@ -52,5 +53,11 @@ $count = 0;
 echo LinkPager::widget([
     'pagination' => $pagination,
 ]);
+?>
+
+<?
+if (Yii::$app->session->getFlash('addToCart')) {
+    echo $this->render('msgAddToCart');
+}
 ?>
 

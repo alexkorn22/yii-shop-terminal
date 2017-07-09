@@ -29,6 +29,10 @@ footer {
 .cart {
   .col_img {
     width: 100px;
+    img {
+      width: 90px;
+      //height: 90px;
+    }
   }
   .col_delete {
     width: 25px;

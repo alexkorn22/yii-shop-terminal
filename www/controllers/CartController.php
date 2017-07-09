@@ -4,14 +4,15 @@ namespace app\controllers;
 
 use app\models\Cart;
 use Yii;
+use yii\helpers\Url;
 
 class CartController extends \yii\web\Controller
 {
     public function actionIndex()
     {
         $cart = new Cart();
-        debDie(Yii::$app->session['cart']);
-        return $this->render('index');
+        $products = $cart->getProducts();
+        return $this->render('index',compact('products','cart'));
     }
 
     public function actionDelete($id){
@@ -23,8 +24,8 @@ class CartController extends \yii\web\Controller
     public function actionBuy($id) {
         $cart = new Cart();
         $cart->saveProduct($id);
-        Yii::$app->session->setFlash('buyProduct',true);
-        return $this->goBack();
+        Yii::$app->session->setFlash('addToCart',true);
+        return  $this->redirect(Yii::$app->request->referrer);
     }
 
 }

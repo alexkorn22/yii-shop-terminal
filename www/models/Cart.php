@@ -25,19 +25,33 @@ class Cart extends Model{
     public function saveProduct($id) {
         $product = Product::findOne($id);
         $cart = Yii::$app->session->get('cart');
+        $count = 0;
+        if (isset($cart[$id])) {
+            $count += $cart[$id]['count'];
+        }
         $rowCart = [
             'product_id' => $id,
-            'count' => 1,
+            'count' => $count + 1,
             'price' => $product->price
         ];
         $cart[$id] = $rowCart;
         Yii::$app->session->set('cart',$cart);
     }
 
+
     public function deleteProduct($id) {
         $cart = Yii::$app->session->get('cart');
         unset($cart[$id]);
         Yii::$app->session->set('cart',$cart);
+    }
+
+    public function getProducts() {
+        $cartItems = Yii::$app->session->get('cart');
+        $products = Product::find()->where(['id' => array_keys($cartItems)])->all();
+        foreach ($products as $product){
+            $cartItems[$product->id]['product'] = $product;
+        }
+        return $cartItems;
     }
 
     public static function getCount() {
