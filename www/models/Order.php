@@ -82,7 +82,7 @@ class Order extends \yii\db\ActiveRecord
             $this->clearCurrentProducts();
             foreach($cartProducts as $product) {
                 $link = new OrderProduct();
-                $link->product_id = $product->product_id;
+                $link->product_id = $product['product_id'];
                 $link->order_id = $this->id;
                 $link->count = $product['count'];
                 $link->price = $product['price'];
@@ -96,6 +96,35 @@ class Order extends \yii\db\ActiveRecord
     public function clearCurrentProducts()
     {
         OrderProduct::deleteAll(['order_id'=>$this->id]);
+    }
+
+    public function getProductIDs() {
+        $ids = [];
+        foreach ($this->orderProducts as $orderProduct) {
+            $ids[] = $orderProduct->product_id;
+        }
+        return $ids;
+    }
+
+    public function getArrayProducts() {
+        /** @var Product[] $dataProducts */
+        $ids = $this->getProductIDs();
+        $dataProducts = Product::find()->select(['name','id'])->where(['id' => $ids])->all();
+        $prods = [];
+        foreach ($dataProducts as $dataProduct) {
+            $prods[$dataProduct->id]['name'] = $dataProduct->name;
+        }
+        $res = [];
+        $counter = 0;
+        foreach ($this->orderProducts as $orderProduct) {
+            $counter++;
+            $item['count'] = $counter;
+            $item['name'] = $prods[$orderProduct->product_id]['name'];
+            $item['count'] = $orderProduct->count;
+            $item['price'] = $orderProduct->price;
+            $res[] = $item;
+        }
+        return $res;
     }
 
 }

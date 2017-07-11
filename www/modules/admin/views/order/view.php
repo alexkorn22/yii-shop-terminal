@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Order */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Orders', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-view">
@@ -34,5 +34,34 @@ $this->params['breadcrumbs'][] = $this->title;
             'sum',
         ],
     ]) ?>
+
+    <div>
+        <h3>Товары</h3>
+        <table class="table table-bordered table-hover">
+        <!--Header-->
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Наименование</th>
+            <th>Количество</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <? foreach ($products as $product):?>
+            <tr>
+                <td><p><?=$product['count'];?></p></td>
+                <td>
+                    <p><?=$product['name']?></p>
+                </td>
+                <td><?=$product['count']?></td>
+                <td><?=$product['price']?> грн</td>
+
+            </tr>
+        <? endforeach;?>
+        </tbody>
+    </table>
+    </div>
 
 </div>

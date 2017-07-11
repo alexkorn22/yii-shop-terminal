@@ -31,7 +31,7 @@ $this->title = 'Корзина';
             <td class="col_img"><img src="<?=$product['product']->getImage()?>" alt=""></td>
             <td>
                 <h4><?=$product['product']->name?></h4>
-                <p>Описание</p>
+                <p><?=$product['product']->description?></p>
             </td>
             <td><?=$product['count']?></td>
             <td><?=$product['price']?> грн</td>
