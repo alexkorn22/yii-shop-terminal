@@ -57,4 +57,17 @@ class Cart extends Model{
     public static function getCount() {
         return count(Yii::$app->session['cart']);
     }
+
+    public function getSum() {
+        $cart = Yii::$app->session->get('cart');
+        $sum = 0;
+        foreach ($cart as $item) {
+            $sum += $item['price'] * $item['count'];
+        }
+        return $sum;
+    }
+
+    public function clear() {
+        Yii::$app->session->set('cart',[]);
+    }
 }

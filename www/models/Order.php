@@ -55,4 +55,47 @@ class Order extends \yii\db\ActiveRecord
     {
         return $this->hasMany(OrderProduct::className(), ['order_id' => 'id']);
     }
+
+    public function checkout(Cart $cart) {
+        $this->number = $this->getRandomNumber();
+        $this->guid = $this->getNewGuid();
+        $this->sum = $cart->getSum();
+        if (!$this->save(false)) {
+            return false;
+        }
+        if (!$this->saveProducts($cart->getProducts())) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getRandomNumber() {
+        return uniqid();
+    }
+
+    public function getNewGuid() {
+        return $this->getRandomNumber() . $this->getRandomNumber();
+    }
+
+    public function saveProducts($cartProducts){
+        if (is_array($cartProducts)) {
+            $this->clearCurrentProducts();
+            foreach($cartProducts as $product) {
+                $link = new OrderProduct();
+                $link->product_id = $product->product_id;
+                $link->order_id = $this->id;
+                $link->count = $product['count'];
+                $link->price = $product['price'];
+                $link->save();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function clearCurrentProducts()
+    {
+        OrderProduct::deleteAll(['order_id'=>$this->id]);
+    }
+
 }

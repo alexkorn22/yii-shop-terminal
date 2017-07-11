@@ -60,5 +60,9 @@ echo LinkPager::widget([
 if (Yii::$app->session->getFlash('addToCart')) {
     echo $this->render('msgAddToCart');
 }
+$numberOrder = Yii::$app->session->getFlash('numberOrderSuccess');
+if ($numberOrder) {
+    echo $this->render('msgOrderSuccess',['numberOrder' => $numberOrder]);
+}
 ?>
 

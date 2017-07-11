@@ -50,7 +50,7 @@ $this->title = 'Корзина';
             <div class="col-md-12">
                 <?php $form = ActiveForm::begin(['id' => 'makeOrder']); ?>
                 <input type="hidden" name="makeOrder" value="true">
-                <button type="submit" class="btn btn-primary">Оформить заказ на сумму </button>
+                <button type="submit" class="btn btn-primary">Оформить заказ на сумму <?=$cart->getSum()?> грн</button>
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
