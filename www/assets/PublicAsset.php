@@ -18,10 +18,12 @@ class PublicAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css',
         'css/main.css',
     ];
     public $js = [
-        'js/main.js'
+        'https://code.jquery.com/ui/1.12.1/jquery-ui.min.js',
+        'js/main.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

@@ -14,11 +14,11 @@ $this->title = 'Каталог товаров';
     <input type="text"  class="form-control" id="searchProduct" placeholder="Поиск">
 </div>
 <div class="col-md-2">
-    <button type="button" class="btn btn-primary">Поиск</button>
+    <button type="button" id="btn_search" class="btn btn-primary">Поиск</button>
 </div>
 </div>
 
-<div class="block_list_prods">
+<div id="block_list_prods">
     <? echo $this->render('tpl/list_prods',compact('pagination','products')); ?>
 </div>
 

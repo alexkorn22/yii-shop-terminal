@@ -7,6 +7,7 @@ use Yii;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
@@ -135,5 +136,29 @@ class SiteController extends Controller
         $products = $data['products'];
         $pagination = $data['pagination'];
         return $this->render('catalog',compact('products', 'pagination'));
+    }
+
+    public function actionListProducts($term = '') {
+        if (!Yii::$app->request->isAjax) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        if (empty($term)) {
+            exit(json_encode([]));
+        }
+        $res = Product::getNameByName($term);
+        exit(json_encode($res));
+    }
+
+    public function actionSearchProducts($queryName = '') {
+        if (!Yii::$app->request->isAjax) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        if (empty($queryName)) {
+            exit('');
+        }
+        $data = Product::getListAllByName(24,$queryName);
+        $products = $data['products'];
+        $pagination = $data['pagination'];
+        exit($this->renderAjax('tpl/list_prods',compact('products', 'pagination')));
     }
 }

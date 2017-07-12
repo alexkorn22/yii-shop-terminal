@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\data\Pagination;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "product".
@@ -113,6 +114,25 @@ class Product extends \yii\db\ActiveRecord
             ->limit($pagination->limit)
             ->all();
         return compact('products','pagination');
+    }
 
+    public static function getNameByName($searchStringName, $limit = 10) {
+        $list = Product::find()->where(['like', 'name',$searchStringName ])
+            ->select('name')
+            ->limit($limit)
+            ->asArray()
+            ->all();
+        return ArrayHelper::getColumn($list,'name');
+    }
+
+    public static function getListAllByName($pageSize = 12, $searchStringName){
+        $query = Product::find()->where(['like', 'name',$searchStringName ]);
+        $count = $query->count();
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize'=>$pageSize]);
+        $products = $query->select(['id','name','description','image','price'])
+            ->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+        return compact('products','pagination');
     }
 }
